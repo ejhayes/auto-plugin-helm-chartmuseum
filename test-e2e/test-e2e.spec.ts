@@ -48,7 +48,7 @@ describe("e2e tests", () => {
     // remove everything from chartmuseum
     const res = await client.get<ICharts>("charts");
 
-    for (const [chart, versions] of Object.entries(res.result || {})) {
+    for (const [, versions] of Object.entries(res.result || {})) {
       for (const version of versions) {
         await client.del(`charts/${version.name}/${version.version}`);
       }
