@@ -10,23 +10,20 @@ permissions: write-all
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 4
     if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'skip ci')"
     steps:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-
       - uses: oleksiyrudenko/gha-git-credentials@v2.1
         with:
           token: "${{ secrets.GH_TOKEN }}"
-
       - name: Prepare repository
         run: git fetch --unshallow --tags
-
       - uses: actions/setup-node@v3
         with:
           node-version: "18"
-
       - name: Cache node modules
         uses: actions/cache@v3
         env:
@@ -35,11 +32,8 @@ jobs:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-
       - run: npm ci
-
       - run: npm run ci:build
-
       # upload coverage info
       - if: ${{ github.actor != 'dependabot[bot]' }}
         uses: paambaati/codeclimate-action@v5.0.0
@@ -49,7 +43,6 @@ jobs:
         with:
           coverageLocations: coverage/lcov.info:lcov
           coverageCommand: npm run ci:test
-
       - name: Create Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

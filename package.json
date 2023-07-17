@@ -4,6 +4,7 @@
   "description": "auto plugin for helm chart publishing",
   "files": [
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     "dist"
   ],
@@ -14,7 +15,7 @@
     "ci:test:e2e": "npm run test:e2e",
     "lint": "eslint .",
     "format": "",
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "services:start": "docker compose up -d chartmuseum",
     "services:stop": "docker compose stop",
     "services:remove": "docker compose rm --stop -f",
