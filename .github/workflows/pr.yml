@@ -39,6 +39,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "18"
+      - uses: fossas/fossa-action@main
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
       - uses: wearerequired/lint-action@v2
         with:
           eslint: true
