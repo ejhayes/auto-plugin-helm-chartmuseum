@@ -1,3 +1,17 @@
+# v0.1.2 (Mon Jul 17 2023)
+
+#### 🐛 Bug Fix
+
+- Update release to ignore fossa [#29](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/29) ([@ejhayes](https://github.com/ejhayes))
+- Update dependencies [#25](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/25) ([@ejhayes](https://github.com/ejhayes))
+- FOSSA Support [#24](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/24) ([@ejhayes](https://github.com/ejhayes))
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
 # v0.1.1 (Mon Jul 17 2023)
 
 #### 🐛 Bug Fix
