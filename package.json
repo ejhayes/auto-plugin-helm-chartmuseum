@@ -1,6 +1,6 @@
 {
   "name": "auto-plugin-helm-chartmuseum",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "auto plugin for helm chart publishing",
   "files": [
     "README.md",
