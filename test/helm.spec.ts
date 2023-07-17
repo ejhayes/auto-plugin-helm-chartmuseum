@@ -1,5 +1,7 @@
+import { ILogger } from "@auto-it/core";
 import { Helm } from "../src/helm";
 import { rm, mkdir, cp, readdir } from "fs/promises";
+import { Dirent } from "fs";
 
 const exec = jest.fn();
 const logger = jest.fn(() => ({
@@ -9,14 +11,14 @@ const logger = jest.fn(() => ({
     error: jest.fn(),
     warn: jest.fn(),
   },
-}));
+})) as jest.Mock<ILogger>;
 
 jest.mock("fs/promises");
 
 jest.mock(
   "@auto-it/core/dist/utils/exec-promise",
   () =>
-    (...args: any[]) =>
+    (...args: unknown[]) =>
       exec(...args)
 );
 
@@ -26,7 +28,7 @@ describe(Helm.name, () => {
   beforeEach(() => {
     logger.mockClear();
     exec.mockClear();
-    helm = new Helm(logger() as any, {});
+    helm = new Helm(logger(), {});
   });
 
   describe("prepChart", () => {
@@ -103,7 +105,7 @@ describe(Helm.name, () => {
       jest
         .mocked(readdir)
         .mockResolvedValueOnce([
-          { name: "someChart.tgz", isFile: () => true } as any,
+          { name: "someChart.tgz", isFile: () => true } as Dirent,
         ]);
 
       await helm.publishCharts("path", "repo", true);
@@ -120,9 +122,9 @@ describe(Helm.name, () => {
       jest
         .mocked(readdir)
         .mockResolvedValueOnce([
-          { name: "someFile", isFile: () => true } as any,
-          { name: "someDir", isFile: () => false } as any,
-          { name: "someChart.tgz", isFile: () => true } as any,
+          { name: "someFile", isFile: () => true } as Dirent,
+          { name: "someDir", isFile: () => false } as Dirent,
+          { name: "someChart.tgz", isFile: () => true } as Dirent,
         ]);
 
       await helm.publishCharts("path", "repo", true);
