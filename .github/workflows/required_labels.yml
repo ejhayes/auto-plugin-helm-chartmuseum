@@ -3,6 +3,8 @@ name: Check Required Labels
 on:
   pull_request:
     types: [opened, labeled, unlabeled]
+    branches:
+      - '!next'
 
 permissions:
   actions: write
