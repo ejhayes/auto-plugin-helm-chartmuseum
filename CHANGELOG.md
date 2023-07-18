@@ -1,3 +1,18 @@
+# v0.1.3 (Tue Jul 18 2023)
+
+#### 🐛 Bug Fix
+
+- Fix todo action [#30](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/30) ([@ejhayes](https://github.com/ejhayes))
+- Update dependencies [#37](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/37) ([@ejhayes](https://github.com/ejhayes))
+- Fix linting errors [#31](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/31) ([@ejhayes](https://github.com/ejhayes))
+
+#### Authors: 2
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+- Lint Action (lint-action@github.com)
+
+---
+
 # v0.1.2 (Mon Jul 17 2023)
 
 #### 🐛 Bug Fix
