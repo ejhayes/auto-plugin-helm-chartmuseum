@@ -19,7 +19,7 @@ jest.mock(
   "@auto-it/core/dist/utils/exec-promise",
   () =>
     (...args: unknown[]) =>
-      exec(...args)
+      exec(...args),
 );
 
 describe(Helm.name, () => {
@@ -64,8 +64,8 @@ describe(Helm.name, () => {
         .mockImplementation(async (path, replacers) => {
           replacerFn(
             replacers(
-              `test:  file://../some/path\nkey2:     file://../../otherPath`
-            )
+              `test:  file://../some/path\nkey2:     file://../../otherPath`,
+            ),
           );
         });
       await helm.prepChart("src", "dest", "1234", {
@@ -76,7 +76,7 @@ describe(Helm.name, () => {
       });
       expect(replacerFn).toBeCalledTimes(1);
       expect(replacerFn).toBeCalledWith(
-        `test:  'testrepo'\nkey2:     'testrepo'`
+        `test:  'testrepo'\nkey2:     'testrepo'`,
       );
     });
 
@@ -168,7 +168,7 @@ describe(Helm.name, () => {
           recursive: true,
           replaceFileWithRepository: true,
           replaceVersionToken: true,
-        }
+        },
       );
       expect(helm.prepChart).toHaveBeenCalledWith(
         "dest/test2",
@@ -178,7 +178,7 @@ describe(Helm.name, () => {
           recursive: true,
           replaceFileWithRepository: true,
           replaceVersionToken: true,
-        }
+        },
       );
 
       expect(rm).toBeCalledWith("dest", { force: true, recursive: true });
@@ -221,8 +221,8 @@ describe(Helm.name, () => {
         .mockImplementation(async (path, replacers) => {
           replacerFn(
             replacers(
-              `${helm.options.versionToken.toLowerCase()}\ntest\n${helm.options.versionToken.toUpperCase()}`
-            )
+              `${helm.options.versionToken.toLowerCase()}\ntest\n${helm.options.versionToken.toUpperCase()}`,
+            ),
           );
         });
       await helm.prepCharts("1234", "src", "dest");

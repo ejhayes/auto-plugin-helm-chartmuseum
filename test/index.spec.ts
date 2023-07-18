@@ -15,7 +15,7 @@ jest.mock(
   "@auto-it/core/dist/utils/exec-promise",
   () =>
     (...args: unknown[]) =>
-      exec(...args)
+      exec(...args),
 );
 
 jest.mock("../src/helm");
@@ -25,7 +25,7 @@ const setup = (
   mockGit?: Partial<Git>,
   options?: IHelmPluginOptions,
   checkEnv?: jest.SpyInstance,
-  prereleaseBranches: string[] = ["next"]
+  prereleaseBranches: string[] = ["next"],
 ) => {
   const plugin = new HelmPlugin(options || {});
   const hooks = makeHooks();
@@ -54,7 +54,7 @@ describe(HelmPlugin.name, () => {
     it("should error without options", async () => {
       const hooks = setup();
       await expect(
-        hooks.validateConfig.promise("helm", null)
+        hooks.validateConfig.promise("helm", null),
       ).resolves.toHaveLength(1);
     });
   });
@@ -85,7 +85,7 @@ describe(HelmPlugin.name, () => {
           getLastTagNotInBaseBranch: async () => "0.0.1",
           getLatestRelease: async () => "0.0.1",
         },
-        { enablePreleases: true, repository: "dummy", push: true }
+        { enablePreleases: true, repository: "dummy", push: true },
       );
       const res = await hooks.next.promise(["0.0.1"], {
         bump: Auto.SEMVER.patch,
@@ -101,7 +101,7 @@ describe(HelmPlugin.name, () => {
           replaceFileWithRepository: false,
           replaceVersionToken: true,
           repository: "dummy",
-        })
+        }),
       );
       expect(helm.publishCharts).toBeCalledWith("publish", "", false);
 
@@ -115,7 +115,7 @@ describe(HelmPlugin.name, () => {
       expect(exec).toBeCalledWith("git", ["push", "origin", "next", "--tags"]);
 
       expect(res).toMatchObject(
-        expect.arrayContaining(["0.0.1", "0.0.2-next.0"])
+        expect.arrayContaining(["0.0.1", "0.0.2-next.0"]),
       );
     });
 
@@ -125,7 +125,7 @@ describe(HelmPlugin.name, () => {
           getLastTagNotInBaseBranch: async () => "0.0.1",
           getLatestRelease: async () => "0.0.1",
         },
-        { enablePreleases: true, push: false }
+        { enablePreleases: true, push: false },
       );
       await hooks.next.promise(["0.0.1"], {
         bump: Auto.SEMVER.patch,
@@ -147,13 +147,13 @@ describe(HelmPlugin.name, () => {
           getLastTagNotInBaseBranch: async () => "invalid",
           getLatestRelease: async () => "invalid",
         },
-        { enablePreleases: true }
+        { enablePreleases: true },
       );
       const res = await hooks.next.promise(["invalid"], {
         bump: "wrong",
       } as never);
       expect(res).toMatchObject(
-        expect.arrayContaining(["invalid", "prerelease"])
+        expect.arrayContaining(["invalid", "prerelease"]),
       );
     });
 
@@ -194,7 +194,7 @@ describe(HelmPlugin.name, () => {
     it("skips if publishing not enabled", async () => {
       const hooks = setup(
         { getLatestTagInBranch: async () => "0.0.1" },
-        { repository: "dummy", push: false }
+        { repository: "dummy", push: false },
       );
       await hooks.publish.promise({ bump: Auto.SEMVER.patch });
 
@@ -209,7 +209,7 @@ describe(HelmPlugin.name, () => {
           replaceFileWithRepository: false,
           replaceVersionToken: true,
           repository: "dummy",
-        })
+        }),
       );
       expect(helm.publishCharts).not.toBeCalled();
       expect(exec).not.toBeCalled();
@@ -218,7 +218,7 @@ describe(HelmPlugin.name, () => {
     it("preps chart with correct version and repository", async () => {
       const hooks = setup(
         { getLatestTagInBranch: async () => "0.0.1" },
-        { repository: "dummy", push: true }
+        { repository: "dummy", push: true },
       );
       await hooks.publish.promise({ bump: Auto.SEMVER.patch });
 
@@ -233,7 +233,7 @@ describe(HelmPlugin.name, () => {
           replaceFileWithRepository: false,
           replaceVersionToken: true,
           repository: "dummy",
-        })
+        }),
       );
       expect(helm.publishCharts).toBeCalledWith("publish", "", false);
 
@@ -287,7 +287,7 @@ describe(HelmPlugin.name, () => {
     it("fails with invalid version bump", async () => {
       const hooks = setup(
         { getLatestRelease: async () => "0.0.1" },
-        { enableCanary: true }
+        { enableCanary: true },
       );
       await hooks.canary.promise({
         bump: "wrong",
@@ -301,7 +301,7 @@ describe(HelmPlugin.name, () => {
     it("skips is canary disabled", async () => {
       const hooks = setup(
         { getLatestRelease: async () => "0.0.1" },
-        { enableCanary: false }
+        { enableCanary: false },
       );
       await hooks.canary.promise({
         bump: "wrong",
@@ -315,7 +315,7 @@ describe(HelmPlugin.name, () => {
     it("skips is dryrun mode", async () => {
       const hooks = setup(
         { getLatestRelease: async () => "0.0.1" },
-        { enableCanary: true }
+        { enableCanary: true },
       );
       await hooks.canary.promise({
         bump: Auto.SEMVER.patch as never,
@@ -330,7 +330,7 @@ describe(HelmPlugin.name, () => {
     it("skips publishing if push not enabled", async () => {
       const hooks = setup(
         { getLatestRelease: async () => "0.0.1" },
-        { enableCanary: true, push: false }
+        { enableCanary: true, push: false },
       );
       await hooks.canary.promise({
         bump: Auto.SEMVER.patch,
@@ -343,7 +343,7 @@ describe(HelmPlugin.name, () => {
     it("preps chart with correct version and repository", async () => {
       const hooks = setup(
         { getLatestRelease: async () => "0.0.1" },
-        { enableCanary: true, repository: "dummy", push: true }
+        { enableCanary: true, repository: "dummy", push: true },
       );
       await hooks.canary.promise({
         bump: Auto.SEMVER.patch,
@@ -359,7 +359,7 @@ describe(HelmPlugin.name, () => {
           replaceFileWithRepository: false,
           replaceVersionToken: true,
           repository: "dummy",
-        })
+        }),
       );
       expect(helm.publishCharts).toBeCalledWith("publish", "", false);
     });
