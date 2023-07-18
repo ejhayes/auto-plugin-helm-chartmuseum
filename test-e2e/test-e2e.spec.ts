@@ -41,14 +41,14 @@ async function runCommand(command: string, args: string[]) {
 describe("e2e tests", () => {
   const client: RestClient = new RestClient(
     "jest",
-    `${CHARTMUSEUM_BASE_URL}/api`
+    `${CHARTMUSEUM_BASE_URL}/api`,
   );
 
   async function clearChartmuseum() {
     // remove everything from chartmuseum
     const res = await client.get<ICharts>("charts");
 
-    for (const [chart, versions] of Object.entries(res.result || {})) {
+    for (const [, versions] of Object.entries(res.result || {})) {
       for (const version of versions) {
         await client.del(`charts/${version.name}/${version.version}`);
       }

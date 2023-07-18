@@ -74,35 +74,35 @@ export default class HelmPlugin implements IPlugin {
       enableCanary: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.ENABLE_CANARY] ||
           options?.enableCanary ||
-          false
+          false,
       ),
       enablePreleases: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.ENABLE_PRERELEASES] ||
           options?.enablePreleases ||
-          false
+          false,
       ),
       push: toBoolean(
-        process.env[HELM_PLUGIN_ENV_VARS.PUSH] || options?.push || false
+        process.env[HELM_PLUGIN_ENV_VARS.PUSH] || options?.push || false,
       ),
       forcePush: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.FORCE_PUSH] ||
           options?.forcePush ||
-          false
+          false,
       ),
       recursive: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.RECURSIVE] ||
           options?.recursive ||
-          false
+          false,
       ),
       replaceFileWithRepository: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.REPLACE_FILE_WITH_REPOSITORY] ||
           options?.replaceFileWithRepository ||
-          false
+          false,
       ),
       replaceVersionString: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.REPLACE_VERSION_STRING] ||
           options?.replaceVersionString ||
-          true
+          true,
       ),
       repository:
         process.env[HELM_PLUGIN_ENV_VARS.REPOSITORY] ||
@@ -115,7 +115,7 @@ export default class HelmPlugin implements IPlugin {
       useHelmDocs: toBoolean(
         process.env[HELM_PLUGIN_ENV_VARS.USE_HELM_DOCS] ||
           options?.useHelmDocs ||
-          false
+          false,
       ),
       publishPath:
         process.env[HELM_PLUGIN_ENV_VARS.PUBLISH_PATH] ||
@@ -151,7 +151,7 @@ export default class HelmPlugin implements IPlugin {
     auto.hooks.getPreviousVersion.tapPromise(this.name, async () => {
       if (!auto.git) {
         throw new Error(
-          "Can't calculate previous version without Git initialized!"
+          "Can't calculate previous version without Git initialized!",
         );
       }
 
@@ -187,7 +187,7 @@ export default class HelmPlugin implements IPlugin {
 
         if (dryRun) {
           auto.logger.log.info(
-            `[DRY RUN] Would have created canary version: ${canaryVersion}`
+            `[DRY RUN] Would have created canary version: ${canaryVersion}`,
           );
           return;
         }
@@ -202,20 +202,20 @@ export default class HelmPlugin implements IPlugin {
             replaceFileWithRepository: this.options.replaceFileWithRepository,
             replaceVersionToken: this.options.replaceVersionString,
             repository: this.options.repository,
-          }
+          },
         );
 
         if (this.options.push) {
           await helm.publishCharts(
             this.options.publishPath,
             this.options.publishRepository,
-            this.options.forcePush
+            this.options.forcePush,
           );
 
           //await execPromise("git", ["tag", "-f", `${canaryAliasVersion}`, "-m", `Tag pull request canary: ${canaryAliasVersion} (${canaryVersion})`]);
           //await execPromise("git", ["push", auto.remote, `refs/tags/${canaryAliasVersion}`, "-f"]);
         }
-      }
+      },
     );
 
     auto.hooks.publish.tapPromise(this.name, async (args) => {
@@ -240,13 +240,13 @@ export default class HelmPlugin implements IPlugin {
           replaceFileWithRepository: this.options.replaceFileWithRepository,
           replaceVersionToken: this.options.replaceVersionString,
           repository: this.options.repository,
-        }
+        },
       );
       if (this.options.push) {
         await helm.publishCharts(
           this.options.publishPath,
           this.options.publishRepository,
-          this.options.forcePush
+          this.options.forcePush,
         );
 
         await execPromise("git", [
@@ -297,7 +297,7 @@ export default class HelmPlugin implements IPlugin {
         (await auto.git.getLastTagNotInBaseBranch(prereleaseBranch)) ||
         (await auto.getCurrentVersion(lastRelease));
       const prerelease = auto.prefixRelease(
-        determineNextVersion(lastRelease, current, args.bump, prereleaseBranch)
+        determineNextVersion(lastRelease, current, args.bump, prereleaseBranch),
       );
 
       prereleaseVersions.push(prerelease);
@@ -311,14 +311,14 @@ export default class HelmPlugin implements IPlugin {
           replaceFileWithRepository: this.options.replaceFileWithRepository,
           replaceVersionToken: this.options.replaceVersionString,
           repository: this.options.repository,
-        }
+        },
       );
 
       if (this.options.push) {
         await helm.publishCharts(
           this.options.publishPath,
           this.options.publishRepository,
-          this.options.forcePush
+          this.options.forcePush,
         );
 
         await execPromise("git", [

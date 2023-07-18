@@ -22,7 +22,10 @@ interface PrepOptions {
 export class Helm {
   options: HelmOptions;
 
-  constructor(private readonly logger: ILogger, options: Partial<HelmOptions>) {
+  constructor(
+    private readonly logger: ILogger,
+    options: Partial<HelmOptions>,
+  ) {
     this.options = {
       useHelmDocs:
         options.useHelmDocs !== undefined ? options.useHelmDocs : true,
@@ -69,7 +72,7 @@ export class Helm {
     version: string,
     srcPath: string,
     destPath: string,
-    _opts: Partial<PrepOptions> = {}
+    _opts: Partial<PrepOptions> = {},
   ) {
     const opts: PrepOptions = {
       recursive: true,
@@ -93,7 +96,7 @@ export class Helm {
           await this.inlineReplace(join(chartPath, file), (content) => {
             return content.replace(
               new RegExp(this.options.versionToken, "ig"),
-              version
+              version,
             );
           });
         }
@@ -139,7 +142,7 @@ export class Helm {
     srcPath: string,
     destPath: string,
     version: string,
-    opts: PrepOptions
+    opts: PrepOptions,
   ) {
     this.logger.log.info(`Creating chart: ${srcPath} version ${version}`);
 

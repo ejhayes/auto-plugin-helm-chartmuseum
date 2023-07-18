@@ -3,6 +3,8 @@ name: Code Review
 on:
   pull_request:
     types: [opened, synchronize]
+    branches:
+      - '!next'
 
 concurrency:
   group: ${{ github.head_ref }}-pr

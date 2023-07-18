@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - next
 
 permissions:
   actions: write
@@ -19,10 +20,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  todo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: rm -rf .git/hooks
       - name: Run tdg-github-action
         uses: ejhayes/tdg-github-action@master
         with:
