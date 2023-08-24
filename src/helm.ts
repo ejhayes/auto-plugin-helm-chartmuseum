@@ -170,6 +170,7 @@ export class Helm {
 
   async getChartDirs(path: string, recursive = false) {
     if (recursive) {
+      // Recursive read doesn't give the complete path in the name
       return (
         await readdir(path, {
           recursive: true,
@@ -177,7 +178,7 @@ export class Helm {
         })
       )
         .filter((i) => i.isDirectory())
-        .map((i) => i.name);
+        .map((i) => join(i.path, i.name).replace(`${path}/`, ''));
     }
 
     return path;
