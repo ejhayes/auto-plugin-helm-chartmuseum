@@ -14,7 +14,7 @@ jobs:
   init:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: cache
         uses: actions/cache@v3
         with:
@@ -31,7 +31,7 @@ jobs:
     needs: [init]
     permissions: write-all
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
       - uses: actions/cache@v3
@@ -60,7 +60,7 @@ jobs:
     needs: [init]
     permissions: write-all
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
@@ -80,7 +80,7 @@ jobs:
     needs: [init]
     timeout-minutes: 3
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
@@ -122,7 +122,7 @@ jobs:
           STORAGE_LOCAL_ROOTDIR: "/tmp/charts"
           PORT: 8080
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
