@@ -24,7 +24,7 @@ export class Helm {
 
   constructor(
     private readonly logger: ILogger,
-    options: Partial<HelmOptions>,
+    options: Partial<HelmOptions>
   ) {
     this.options = {
       useHelmDocs:
@@ -72,7 +72,7 @@ export class Helm {
     version: string,
     srcPath: string,
     destPath: string,
-    _opts: Partial<PrepOptions> = {},
+    _opts: Partial<PrepOptions> = {}
   ) {
     const opts: PrepOptions = {
       recursive: true,
@@ -96,7 +96,7 @@ export class Helm {
           await this.inlineReplace(join(chartPath, file), (content) => {
             return content.replace(
               new RegExp(this.options.versionToken, "ig"),
-              version,
+              version
             );
           });
         }
@@ -142,7 +142,7 @@ export class Helm {
     srcPath: string,
     destPath: string,
     version: string,
-    opts: PrepOptions,
+    opts: PrepOptions
   ) {
     this.logger.log.info(`Creating chart: ${srcPath} version ${version}`);
 
@@ -172,13 +172,17 @@ export class Helm {
     if (recursive) {
       // Recursive read doesn't give the complete path in the name
       return (
-        await readdir(path, {
-          recursive: true,
-          withFileTypes: true,
-        })
-      )
-        .filter((i) => i.isDirectory())
-        .map((i) => join(i.path, i.name).replace(`${path}/`, ''));
+        (
+          await readdir(path, {
+            recursive: true,
+            withFileTypes: true,
+          })
+        )
+          .filter((i) => i.isDirectory())
+          // Ignore templates and test directories here. The Plugin tries to builds them as full charts.
+          .filter((i) => i.name !== "templates" && i.name !== "test")
+          .map((i) => join(i.path, i.name).replace(`${path}/`, ""))
+      );
     }
 
     return path;
