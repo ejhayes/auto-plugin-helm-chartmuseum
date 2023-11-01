@@ -187,6 +187,7 @@ describe(Helm.name, () => {
 
       expect(mkdir).toBeCalledWith('dest', { recursive: true })
       expect(cp).toBeCalledWith('src', 'dest', { recursive: true })
+      expect(helm.getChartDirs).toBeCalledWith('dest', true)
     })
 
     it('does not replace version when disabled', async () => {
@@ -230,6 +231,44 @@ describe(Helm.name, () => {
       expect(replacerFn).toBeCalledWith(`1234\ntest\n1234`)
       expect(replacerFn).toBeCalledWith(`1234\ntest\n1234`)
       //expect(helm.inlineReplace).toBeCalledWith(8)
+    })
+  })
+
+  describe('getChartDirs', () => {
+
+    it('works for recursive', async () => {
+      //await helm.prepCharts('1234', 'src', 'dest')
+      jest.mocked(readdir).mockResolvedValue(
+        [
+          {
+            isDirectory: () => true,
+            name: 'dummy1'
+          },
+          {
+            isDirectory: () => true,
+            name: 'dummy2'
+          }
+        ] as jest.MockedObjectDeep<Dirent[]>)
+      const res = await helm.getChartDirs('dummy', true)
+
+      expect(res).toMatchObject(expect.arrayContaining(['dummy1','dummy2']))
+    })
+
+    it('works for nonrecursive', async () => {
+      jest.mocked(readdir).mockResolvedValue(
+        [
+          {
+            isDirectory: () => true,
+            name: 'dummy1'
+          },
+          {
+            isDirectory: () => true,
+            name: 'dummy2'
+          }
+        ] as jest.MockedObjectDeep<Dirent[]>)
+      const res = await helm.getChartDirs('dummy', false)
+
+      expect(res).toMatchObject(['dummy'])
     })
   })
 })

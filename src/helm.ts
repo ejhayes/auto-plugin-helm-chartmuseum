@@ -80,13 +80,20 @@ export class Helm {
       replaceVersionToken: true,
       ..._opts,
     }
-    const chartDirs = await this.getChartDirs(srcPath, opts.recursive)
 
     await rm(destPath, { recursive: true, force: true })
     await mkdir(destPath, { recursive: true })
+    /**
+     * recursive in this case just means that we want to
+     * copy the full contents of the srcPath over to the
+     * destPath
+     */
     await cp(srcPath, destPath, {
       recursive: true,
     })
+
+    // get list of chartDirs from the publish directory
+    const chartDirs = await this.getChartDirs(destPath, opts.recursive)
 
     // replace all versions with the current version
     for (const chartDir of chartDirs) {
@@ -168,7 +175,7 @@ export class Helm {
     await execPromise(TOOLS.HELM, ['package', srcPath, '-d', destPath])
   }
 
-  async getChartDirs(path: string, recursive = false) {
+  async getChartDirs(path: string, recursive = false): Promise<string[]> {
     if (recursive) {
       return (
         await readdir(path, {
@@ -180,6 +187,6 @@ export class Helm {
         .map((i) => i.name)
     }
 
-    return path
+    return [path]
   }
 }
