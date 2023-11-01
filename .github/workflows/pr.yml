@@ -151,10 +151,12 @@ jobs:
           HELM_PLUGIN_PUBLISH_REPOSITORY: local
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ls -l 
-          npm run test:e2e || (ls -l publish && tree publish)
+          ls -l test-e2e
+          npm run test:e2e || (cd test-e2e && ls -l publish && tree publish)
+          cd test-e2e
           ls -l publish
           tree publish
+          cd ..
           npm run ci:build
           npm run test:e2e
       - env:
