@@ -144,13 +144,19 @@ jobs:
         run: helm plugin install https://github.com/chartmuseum/helm-push
       - name: Add Chartmuseum repo
         run: helm repo add local $CHARTMUSEUM_BASE_URL
-      - run: |
+      - env:
+          HELM_PLUGIN_ENABLE_CANARY: true
+          HELM_PLUGIN_PUSH: true
+          HELM_PLUGIN_REPOSITORY: '@local'
+          HELM_PLUGIN_PUBLISH_REPOSITORY: local
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           ls -l 
-          npm run test:e2e
+          npm run test:e2e || (ls -l publish && tree publish)
           ls -l publish
           tree publish
-          npm run ci:test:e2e
-
+          npm run ci:build
+          npm run test:e2e
       - env:
           HELM_PLUGIN_ENABLE_CANARY: true
           HELM_PLUGIN_PUSH: true
