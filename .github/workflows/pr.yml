@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches:
-      - '!next'
+      - '!main'
 
 concurrency:
   group: ${{ github.head_ref }}-pr
