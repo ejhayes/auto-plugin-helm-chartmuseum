@@ -1,3 +1,29 @@
+# v0.1.4 (Wed Nov 01 2023)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, Rohit Khattar ([@rfun](https://github.com/rfun)), for all your work!
+
+#### 🐛 Bug Fix
+
+- Publish directory and recursive settings unexpected behavior [#105](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/105) ([@rfun](https://github.com/rfun) [@ejhayes](https://github.com/ejhayes))
+- Fix reading recurive dirs [#65](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/65) ([@rfun](https://github.com/rfun))
+
+#### 📝 Documentation
+
+
+#### 🔩 Dependency Updates
+
+- Bump actions/checkout from 3 to 4 [#72](https://github.com/ejhayes/auto-plugin-helm-chartmuseum/pull/72) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 3
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+- Rohit Khattar ([@rfun](https://github.com/rfun))
+
+---
+
 # v0.1.3 (Tue Jul 18 2023)
 
 #### 🐛 Bug Fix
