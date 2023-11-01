@@ -99,7 +99,10 @@ export class Helm {
     for (const chartDir of chartDirs) {
       const chartPath = join(destPath, chartDir)
       if (opts.replaceVersionToken && this.options.versionToken) {
-        for (const file of await this.findMatchingChartFiles(chartPath)) {
+        this.logger.log(`Using: ${chartPath}`)
+        const files = await this.findMatchingChartFiles(chartPath)
+        this.logger.log(files)
+        for (const file of files) {
           await this.inlineReplace(join(chartPath, file), (content) => {
             return content.replace(
               new RegExp(this.options.versionToken, 'ig'),
