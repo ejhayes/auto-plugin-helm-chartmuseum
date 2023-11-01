@@ -253,7 +253,10 @@ describe(Helm.name, () => {
       const res = await helm.getChartDirs('dummy', true)
 
       expect(readdir).toBeCalledTimes(1)
-      expect(readdir).toBeCalledWith('dummy', {recursive: false, withFileTypes: true})
+      expect(readdir).toBeCalledWith('dummy', {
+        recursive: false,
+        withFileTypes: true,
+      })
       expect(res).toMatchObject(expect.arrayContaining(['dummy1', 'dummy2']))
     })
 
