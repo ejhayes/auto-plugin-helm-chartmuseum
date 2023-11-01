@@ -14,7 +14,7 @@
     "ci:test": "npm run test -- --coverage",
     "ci:test:e2e": "npm run test:e2e",
     "lint": "eslint .",
-    "format": "",
+    "format": "prettier --write .",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "services:start": "docker compose up -d chartmuseum",
     "services:stop": "docker compose stop",

@@ -8,6 +8,9 @@ on:
 
 permissions: write-all
 
+env:
+  NODE_VERSION: '18'
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -19,12 +22,12 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - uses: oleksiyrudenko/gha-git-credentials@v2.1
         with:
-          token: "${{ secrets.GH_TOKEN }}"
+          token: '${{ secrets.GH_TOKEN }}'
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ env.NODE_VERSION }}
       - name: Cache node modules
         uses: actions/cache@v3
         env:
