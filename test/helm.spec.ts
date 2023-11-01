@@ -235,37 +235,34 @@ describe(Helm.name, () => {
   })
 
   describe('getChartDirs', () => {
-
     it('works for recursive', async () => {
       //await helm.prepCharts('1234', 'src', 'dest')
-      jest.mocked(readdir).mockResolvedValue(
-        [
-          {
-            isDirectory: () => true,
-            name: 'dummy1'
-          },
-          {
-            isDirectory: () => true,
-            name: 'dummy2'
-          }
-        ] as jest.MockedObjectDeep<Dirent[]>)
+      jest.mocked(readdir).mockResolvedValue([
+        {
+          isDirectory: () => true,
+          name: 'dummy1',
+        },
+        {
+          isDirectory: () => true,
+          name: 'dummy2',
+        },
+      ] as jest.MockedObjectDeep<Dirent[]>)
       const res = await helm.getChartDirs('dummy', true)
 
-      expect(res).toMatchObject(expect.arrayContaining(['dummy1','dummy2']))
+      expect(res).toMatchObject(expect.arrayContaining(['dummy1', 'dummy2']))
     })
 
     it('works for nonrecursive', async () => {
-      jest.mocked(readdir).mockResolvedValue(
-        [
-          {
-            isDirectory: () => true,
-            name: 'dummy1'
-          },
-          {
-            isDirectory: () => true,
-            name: 'dummy2'
-          }
-        ] as jest.MockedObjectDeep<Dirent[]>)
+      jest.mocked(readdir).mockResolvedValue([
+        {
+          isDirectory: () => true,
+          name: 'dummy1',
+        },
+        {
+          isDirectory: () => true,
+          name: 'dummy2',
+        },
+      ] as jest.MockedObjectDeep<Dirent[]>)
       const res = await helm.getChartDirs('dummy', false)
 
       expect(res).toMatchObject(['dummy'])
