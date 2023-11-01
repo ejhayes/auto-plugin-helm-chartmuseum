@@ -25,7 +25,7 @@ jobs:
           token: '${{ secrets.GH_TOKEN }}'
       - name: Prepare repository
         run: git fetch --unshallow --tags
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node modules
