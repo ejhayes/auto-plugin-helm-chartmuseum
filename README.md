@@ -1,8 +1,7 @@
 # auto-plugin-helm-chartmuseum
 
 [![npm version](https://badge.fury.io/js/auto-plugin-helm-chartmuseum.svg)](https://badge.fury.io/js/auto-plugin-helm-chartmuseum) [![Maintainability](https://api.codeclimate.com/v1/badges/0786ebf1133fdadab59d/maintainability)](https://codeclimate.com/github/ejhayes/auto-plugin-helm-chartmuseum/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0786ebf1133fdadab59d/test_coverage)](https://codeclimate.com/github/ejhayes/auto-plugin-helm-chartmuseum/test_coverage) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fejhayes%2Fauto-plugin-helm-chartmuseum.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fejhayes%2Fauto-plugin-helm-chartmuseum?ref=badge_shield) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Auto plugin for helm charts! This plugin can do the following:
@@ -98,6 +97,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/ejhayes"><img src="https://avatars.githubusercontent.com/u/310233?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Eric Hayes</b></sub></a><br /><a href="https://github.com/ejhayes/auto-plugin-helm-chartmuseum/commits?author=ejhayes" title="Documentation">📖</a> <a href="#infra-ejhayes" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/ejhayes/auto-plugin-helm-chartmuseum/commits?author=ejhayes" title="Tests">⚠️</a> <a href="https://github.com/ejhayes/auto-plugin-helm-chartmuseum/commits?author=ejhayes" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/rfun"><img src="https://avatars.githubusercontent.com/u/2608543?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rohit Khattar</b></sub></a><br /><a href="https://github.com/ejhayes/auto-plugin-helm-chartmuseum/commits?author=rfun" title="Documentation">📖</a> <a href="#infra-rfun" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/ejhayes/auto-plugin-helm-chartmuseum/commits?author=rfun" title="Tests">⚠️</a> <a href="https://github.com/ejhayes/auto-plugin-helm-chartmuseum/commits?author=rfun" title="Code">💻</a></td>
   </tr>
 </table>
 
