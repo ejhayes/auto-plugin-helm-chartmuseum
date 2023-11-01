@@ -193,7 +193,6 @@ export default class HelmPlugin implements IPlugin {
         }
 
         auto.logger.log.info(`Creating canary version: ${canaryVersion}`)
-        auto.logger.log.info(JSON.stringify(this.options))
         await helm.prepCharts(
           canaryVersion,
           this.options.path,
