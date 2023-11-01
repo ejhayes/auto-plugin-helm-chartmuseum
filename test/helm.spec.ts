@@ -235,8 +235,11 @@ describe(Helm.name, () => {
   })
 
   describe('getChartDirs', () => {
+    beforeEach(() => {
+      jest.mocked(readdir).mockReset()
+    })
+
     it('works for recursive', async () => {
-      //await helm.prepCharts('1234', 'src', 'dest')
       jest.mocked(readdir).mockResolvedValue([
         {
           isDirectory: () => true,
@@ -249,6 +252,8 @@ describe(Helm.name, () => {
       ] as jest.MockedObjectDeep<Dirent[]>)
       const res = await helm.getChartDirs('dummy', true)
 
+      expect(readdir).toBeCalledTimes(1)
+      expect(readdir).toBeCalledWith('dummy', {recursive: false, withFileTypes: true})
       expect(res).toMatchObject(expect.arrayContaining(['dummy1', 'dummy2']))
     })
 
@@ -264,7 +269,7 @@ describe(Helm.name, () => {
         },
       ] as jest.MockedObjectDeep<Dirent[]>)
       const res = await helm.getChartDirs('dummy', false)
-
+      expect(readdir).not.toBeCalled()
       expect(res).toMatchObject(['dummy'])
     })
   })

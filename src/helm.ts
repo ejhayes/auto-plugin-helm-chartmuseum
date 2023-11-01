@@ -181,8 +181,26 @@ export class Helm {
   async getChartDirs(path: string, recursive = false): Promise<string[]> {
     if (recursive) {
       return (
+        /**
+         * Behavior of readdir differs with recursive option set to true.
+         * - On mac/ubuntu environments setting this value to true has the same
+         *   behavior (1 level deep)
+         *   $ mkdir -p test1/d0/d1
+         *   $ node -e "const readdir = require('fs/promises').readdir; readdir('test1',{recursive: true}).then((res) => console.log(res))"
+         *   [ 'd0' ]
+         * 
+         * - On github actions (using ubuntu-latest) setting this value to true
+         *   returns all nested directories (more than 1 level deep)
+         *   $ mkdir -p test1/d0/d1
+         *   $ node -e "const readdir = require('fs/promises').readdir; readdir('test1',{recursive: true}).then((res) => console.log(res))"
+         *   [ 'd0', 'd0/d1' ]
+         * 
+         * This could possibly be related to https://github.com/nodejs/node/issues/49243
+         * but regardless should not be set to any other value than false until we can
+         * guarantee behavior between environments
+         */
         await readdir(path, {
-          recursive: true,
+          recursive: false,
           withFileTypes: true,
         })
       )
