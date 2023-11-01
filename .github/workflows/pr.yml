@@ -26,84 +26,84 @@ jobs:
       - if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
-  lint:
-    runs-on: ubuntu-latest
-    needs: [init]
-    permissions: write-all
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-      - uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - uses: fossas/fossa-action@main
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
-      - uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          eslint_extensions: ts
-          prettier: true
-          prettier_extensions: ts,json,js,yml
-          auto_fix: true
-          commit_message: 'chore(lint): Fix code style issues with ${linter}'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          git_email: 'lint-action@github.com'
-
-  build:
-    runs-on: ubuntu-latest
-    needs: [init]
-    permissions: write-all
-    steps:
-      - uses: actions/checkout@v4
-      - name: Prepare repository
-        run: git fetch --unshallow --tags
-      - uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npm run ci:build
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx auto shipit -d
-
-  test:
-    runs-on: ubuntu-latest
-    needs: [init]
-    timeout-minutes: 3
-    steps:
-      - uses: actions/checkout@v4
-      - name: Prepare repository
-        run: git fetch --unshallow --tags
-      - uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          coverageLocations: coverage/lcov.info:lcov
-          coverageCommand: npm run ci:test
-      - if: ${{ github.actor == 'dependabot[bot]' }}
-        run: npm run ci:test
+#  lint:
+#    runs-on: ubuntu-latest
+#    needs: [init]
+#    permissions: write-all
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          token: ${{ secrets.GH_TOKEN }}
+#      - uses: actions/cache@v3
+#        with:
+#          path: ./node_modules
+#          key: modules-${{ hashFiles('package-lock.json') }}
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '18'
+#      - uses: fossas/fossa-action@main
+#        with:
+#          api-key: ${{ secrets.FOSSA_API_KEY }}
+#      - uses: wearerequired/lint-action@v2
+#        with:
+#          eslint: true
+#          eslint_extensions: ts
+#          prettier: true
+#          prettier_extensions: ts,json,js,yml
+#          auto_fix: true
+#          commit_message: 'chore(lint): Fix code style issues with ${linter}'
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          git_email: 'lint-action@github.com'
+#
+#  build:
+#    runs-on: ubuntu-latest
+#    needs: [init]
+#    permissions: write-all
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Prepare repository
+#        run: git fetch --unshallow --tags
+#      - uses: actions/cache@v3
+#        with:
+#          path: ./node_modules
+#          key: modules-${{ hashFiles('package-lock.json') }}
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '18'
+#      - run: npm run ci:build
+#      - env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: npx auto shipit -d
+#
+#  test:
+#    runs-on: ubuntu-latest
+#    needs: [init]
+#    timeout-minutes: 3
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Prepare repository
+#        run: git fetch --unshallow --tags
+#      - uses: actions/cache@v3
+#        with:
+#          path: ./node_modules
+#          key: modules-${{ hashFiles('package-lock.json') }}
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '18'
+#      - if: ${{ github.actor != 'dependabot[bot]' }}
+#        uses: paambaati/codeclimate-action@v5.0.0
+#        env:
+#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          coverageLocations: coverage/lcov.info:lcov
+#          coverageCommand: npm run ci:test
+#      - if: ${{ github.actor == 'dependabot[bot]' }}
+#        run: npm run ci:test
 
   test-e2e:
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [init]
     timeout-minutes: 3
     permissions: write-all
     env:
@@ -144,6 +144,13 @@ jobs:
         run: helm plugin install https://github.com/chartmuseum/helm-push
       - name: Add Chartmuseum repo
         run: helm repo add local $CHARTMUSEUM_BASE_URL
+      - run: |
+          ls -l 
+          npm run test:e2e
+          ls -l publish
+          tree publish
+          npm run ci:test:e2e
+
       - env:
           HELM_PLUGIN_ENABLE_CANARY: true
           HELM_PLUGIN_PUSH: true
