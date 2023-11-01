@@ -151,6 +151,8 @@ jobs:
           HELM_PLUGIN_PUBLISH_REPOSITORY: local
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          mkdir -p test1/d0/d1
+          node -e "const readdir = require('fs/promises').readdir; readdir('test1',{recursive: true}).then((res) => console.log(res))"
           ls -l test-e2e
           npm run test:e2e || (cd test-e2e && ls -l publish && tree publish)
           cd test-e2e
