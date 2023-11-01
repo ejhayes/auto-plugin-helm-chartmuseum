@@ -1,32 +1,32 @@
 ---
 version: 1
 labels:
-  - label: "small"
+  - label: 'small'
     size-below: 10
-  - label: "medium"
+  - label: 'medium'
     size-above: 9
     size-below: 200
-  - label: "large"
+  - label: 'large'
     size-above: 200
-  - label: "documentation"
+  - label: 'documentation'
     files:
-      - ".+.md"
-  - label: "config"
+      - '.+.md'
+  - label: 'config'
     files:
-      - ".github"
-      - ".autorc"
-      - ".eslintrc"
-      - ".eslintignore"
-      - ".prettierrc"
-      - ".prettierignore"
-      - ".all-contributorsrc"
-      - "environments"
-      - ".gitignore"
-      - "Dockerfile"
-      - "docker-compose.yml"
-      - "package.json"
-      - ".dockerignore"
-      - ".gitignore"
-  - label: "code"
+      - '.github'
+      - '.autorc'
+      - '.eslintrc'
+      - '.eslintignore'
+      - '.prettierrc'
+      - '.prettierignore'
+      - '.all-contributorsrc'
+      - 'environments'
+      - '.gitignore'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'package.json'
+      - '.dockerignore'
+      - '.gitignore'
+  - label: 'code'
     files:
-      - "src"
+      - 'src'

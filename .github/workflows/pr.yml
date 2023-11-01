@@ -3,18 +3,21 @@ name: Code Review
 on:
   pull_request:
     types: [opened, synchronize]
-    branches:
-      - '!next'
+    branches-ignore:
+      - main
 
 concurrency:
   group: ${{ github.head_ref }}-pr
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: '18'
+
 jobs:
   init:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: cache
         uses: actions/cache@v3
         with:
@@ -22,7 +25,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ env.NODE_VERSION }}
       - if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
@@ -31,7 +34,7 @@ jobs:
     needs: [init]
     permissions: write-all
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
       - uses: actions/cache@v3
@@ -40,7 +43,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ env.NODE_VERSION }}
       - uses: fossas/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
@@ -51,16 +54,16 @@ jobs:
           prettier: true
           prettier_extensions: ts,json,js,yml
           auto_fix: true
-          commit_message: "chore(lint): Fix code style issues with ${linter}"
+          commit_message: 'chore(lint): Fix code style issues with ${linter}'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          git_email: "lint-action@github.com"
+          git_email: 'lint-action@github.com'
 
   build:
     runs-on: ubuntu-latest
     needs: [init]
     permissions: write-all
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
@@ -69,7 +72,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ env.NODE_VERSION }}
       - run: npm run ci:build
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +83,7 @@ jobs:
     needs: [init]
     timeout-minutes: 3
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
@@ -89,7 +92,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ env.NODE_VERSION }}
       - if: ${{ github.actor != 'dependabot[bot]' }}
         uses: paambaati/codeclimate-action@v5.0.0
         env:
@@ -103,7 +106,7 @@ jobs:
 
   test-e2e:
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [init]
     timeout-minutes: 3
     permissions: write-all
     env:
@@ -118,11 +121,11 @@ jobs:
           - 8080:8080
         env:
           DEBUG: 1
-          STORAGE: "local"
-          STORAGE_LOCAL_ROOTDIR: "/tmp/charts"
+          STORAGE: 'local'
+          STORAGE_LOCAL_ROOTDIR: '/tmp/charts'
           PORT: 8080
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
@@ -131,7 +134,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ env.NODE_VERSION }}
       # e2e dependencies
       - name: Setup Helm
         uses: azure/setup-helm@v3
@@ -147,7 +150,7 @@ jobs:
       - env:
           HELM_PLUGIN_ENABLE_CANARY: true
           HELM_PLUGIN_PUSH: true
-          HELM_PLUGIN_REPOSITORY: "@local"
+          HELM_PLUGIN_REPOSITORY: '@local'
           HELM_PLUGIN_PUBLISH_REPOSITORY: local
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run ci:test:e2e

@@ -25,4 +25,4 @@ jobs:
         with:
           mode: minimum
           count: 1
-          labels: "major,minor,patch,skip-release,internal"
+          labels: 'major,minor,patch,skip-release,internal'

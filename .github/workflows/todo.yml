@@ -23,10 +23,10 @@ jobs:
   todo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: rm -rf .git/hooks
       - name: Run tdg-github-action
         uses: ejhayes/tdg-github-action@master
         with:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACTION_ASSET_URL: "https://github.com/ejhayes/tdg-github-action/releases/latest/download/action.tar.gz"
+          ACTION_ASSET_URL: 'https://github.com/ejhayes/tdg-github-action/releases/latest/download/action.tar.gz'

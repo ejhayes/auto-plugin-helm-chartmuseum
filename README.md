@@ -1,8 +1,9 @@
 # auto-plugin-helm-chartmuseum
+
 [![npm version](https://badge.fury.io/js/auto-plugin-helm-chartmuseum.svg)](https://badge.fury.io/js/auto-plugin-helm-chartmuseum) [![Maintainability](https://api.codeclimate.com/v1/badges/0786ebf1133fdadab59d/maintainability)](https://codeclimate.com/github/ejhayes/auto-plugin-helm-chartmuseum/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0786ebf1133fdadab59d/test_coverage)](https://codeclimate.com/github/ejhayes/auto-plugin-helm-chartmuseum/test_coverage) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fejhayes%2Fauto-plugin-helm-chartmuseum.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fejhayes%2Fauto-plugin-helm-chartmuseum?ref=badge_shield) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Auto plugin for helm charts! This plugin can do the following:
 
@@ -40,6 +41,7 @@ To use in your projects, add this to you `.autorc` file under `plugins` section:
 ```
 
 ### github actions
+
 You can use this with GitHub actions as follows:
 
 ```yaml
@@ -57,7 +59,7 @@ You can use this with GitHub actions as follows:
 - env:
     HELM_PLUGIN_ENABLE_CANARY: true
     HELM_PLUGIN_PUSH: true
-    HELM_PLUGIN_REPOSITORY: "@local"
+    HELM_PLUGIN_REPOSITORY: '@local'
     HELM_PLUGIN_PUBLISH_REPOSITORY: local
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   run: npx auto shipit
